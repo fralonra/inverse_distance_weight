@@ -1,7 +1,16 @@
 [package]
 name = "inverse_distance_weight"
 version = "0.1.0"
+authors = ["Fralonra <zoronlivingston@gmail.com>"]
+description = "Inverse Distance Weighting (IDW) algorithm for spatial interpolation."
 edition = "2021"
+homepage = "https://github.com/fralonra/inverse_distance_weight"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/fralonra/inverse_distance_weight"
+keywords = ["gis", "geo", "geography", "geospatial"]
+categories = ["science::geo"]
+exclude = [".gitignore", ".github/*"]
 
 [dependencies]
 num-traits = "0.2"
