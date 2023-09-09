@@ -13,7 +13,7 @@
 //! # Examples
 //!
 //! ```
-//! use idw::IDW;
+//! use inverse_distance_weight::IDW;
 //!
 //! // 1 dimension
 //! let points = vec![0.0, 1.0];
@@ -41,7 +41,7 @@
 //! let values = vec![0.0, 1.0];
 //! let idw = IDW::new(points, values)
 //!     .power(0.5)
-//!     .weighted_function(|weight| (1.0 + (4.0 * PI * weight).sin()) * 0.5);
+//!     .weighted_function(|weight| (1.0 + (4.0 * std::f64::consts::PI * weight).sin()) * 0.5);
 //! ```
 
 mod coord;
