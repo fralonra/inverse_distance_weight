@@ -1,9 +1,19 @@
 use num_traits::Float;
 
+/// The `Coord` trait represents a point in space with an associated distance metric.
 pub trait Coord<T = f64>
 where
     T: Float,
 {
+    /// Calculates the distance between two `Coord`s.
+    ///
+    /// # Arguments
+    ///
+    /// - `rhs` - A reference to another `Coord` of the same type.
+    ///
+    /// # Returns
+    ///
+    /// The distance between the two `Coord`s as a value of type `T`.
     fn distance_to(&self, rhs: &Self) -> T;
 }
 

@@ -2,6 +2,13 @@ use num_traits::Float;
 
 use crate::coord::Coord;
 
+/// The `IDW` struct represents an Inverse Distance Weighting interpolator.
+///
+/// The weighted function used in the algorithm is `weightᵢ = 1 / distance(pointᵢ, position)ᵖ`.
+///
+/// You can transform the weights by setting a transform function by calling [`IDW::weighted_function`].
+///
+/// The default power parameter used in the algorithm is 2 and can be set by [`IDW::power`].
 pub struct IDW<C, N>
 where
     C: Coord<N>,
@@ -18,9 +25,25 @@ where
     C: Coord<N>,
     N: Float,
 {
+    /// Creates a new instance of the `IDW` struct.
+    ///
+    /// # Arguments
+    ///
+    /// - `points` - A vector of points.
+    /// - `values` - A vector of values associated with each point.
+    ///
+    /// # Returns
+    ///
+    /// A new instance of the struct.
+    ///
+    /// # Panics
+    ///
+    /// - Points vector is empty.
+    /// - Values vector is empty.
+    /// - Points and values vectors have different length.
     pub fn new(points: Vec<C>, values: Vec<N>) -> Self {
-        assert_ne!(points.len(), 0, "Points vectors must not be empty.");
-        assert_ne!(values.len(), 0, "Values vectors must not be empty.");
+        assert_ne!(points.len(), 0, "Points vector must not be empty.");
+        assert_ne!(values.len(), 0, "Values vector must not be empty.");
         assert_eq!(
             points.len(),
             values.len(),
@@ -35,18 +58,45 @@ where
         }
     }
 
+    /// Sets the custom power parameter used in the algorithm.
+    ///
+    /// # Arguments
+    ///
+    /// * `power` - The new power parameter value.
+    ///
+    /// # Returns
+    ///
+    /// The modified instance of the struct.
     pub fn power(mut self, power: N) -> Self {
         self.power_parameter = power;
 
         self
     }
 
+    /// Sets the custom weighted function to be applied to the weights.
+    ///
+    /// # Arguments
+    ///
+    /// - `func` - A function that takes a weight and returns a new weight.
+    ///
+    /// # Returns
+    ///
+    /// The modified instance of the struct.
     pub fn weighted_function(mut self, func: impl Fn(N) -> N + 'static) -> Self {
         self.weighted_function = Some(Box::new(func));
 
         self
     }
 
+    /// Calculates the interpolated value at a given position.
+    ///
+    /// # Arguments
+    ///
+    /// - `position` - The position to evaluate.
+    ///
+    /// # Returns
+    ///
+    /// The interpolated value at the given position.
     pub fn evaluate(&self, position: C) -> N {
         let weight_result = self
             .points
